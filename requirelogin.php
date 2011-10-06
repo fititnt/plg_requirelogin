@@ -19,9 +19,35 @@ class plgSystemRequirelogin extends JPlugin {
     function onAfterRender() 
     {
         $user = JFactory::getuser();
-        if ($user->guest && JRequest::getCmd('option') != 'com_users'){
-            $app = JFactory::getApplication();
-            $app->redirect( JRoute::_('index.php?option=com_users&view=login') );
+        $app = JFactory::getApplication();
+        $options = array();
+		
+        if ( $app->isAdmin() && !$user->guest )
+        {
+                return true;
+        }
+        
+        //@todo: do one check here if is Google, or any other type of visitor
+        
+        //Check if is desired component
+        if ( $this->params->get('option-include', NULL) )
+        {
+            $optionInclude = trim($this->params->get('option-include', NULL));
+            if ( $optionInclude != '*')//Is *? so continue
+            {
+                $options = explode(',', $this->params->get('option-include', NULL) );
+                if ( isset($options) && !in_array( JRequest::getCmd('option') , $options))
+                {
+                    return true;         
+                }
+            }
+        }
+        //@todo: Maybe make one way to just exclude witch component must not be show?
+        //@todo: do some check for if is one item of one desired group of category
+        //@todo: ...
+        
+        if (JRequest::getCmd('option') != 'com_users'){
+            $app->redirect( JRoute::_('index.php?option=com_users&view=login'), $this->params->get('message', NULL) );
         }
         return true;
     }

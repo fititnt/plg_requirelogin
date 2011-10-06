@@ -29,7 +29,23 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
-            </fieldset>                        
+                <field 
+                    name="message" 
+                    type="text" 
+                    default="" 
+                    label="PLG_REQUIRELOGIN_MESSAGE_LABEL" 
+                    description="PLG_REQUIRELOGIN_MESSAGE_DESC">
+                </field>
+            </fieldset>
+            <fieldset name="basic">
+                <field 
+                    name="option-include" 
+                    type="text" 
+                    default="com_content,com_weblink" 
+                    label="PLG_REQUIRELOGIN_OPTION_INCLUDE_LABEL" 
+                    description="PLG_REQUIRELOGIN_OPTION_INCLUDE_DESC">
+                </field>
+            </fieldset> 
         </fields>
     </config>
 </install>
