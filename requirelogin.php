@@ -12,23 +12,17 @@ jimport('joomla.plugin.plugin');
 class plgSystemRequirelogin extends JPlugin {
 
     /**
-     * Do something onAfterInitialize
-     */
-    function onAfterInitialise()
-    {
-        $db = & JFactory::getDBO();
-        //$db->debug(1);
-    }
-
-    /**
      * Do something onAfterRender
+     * 
+     * @todo: is really on this System function the better way to do it? Hummm
      */
     function onAfterRender() 
     {
-
-        //load user info
-        $user = & JFactory::getUser();
-        $app = & JFactory::getApplication();
+        $user = JFactory::getuser();
+        if ($user->guest && JRequest::getCmd('option') != 'com_users'){
+            $app = JFactory::getApplication();
+            $app->redirect( JRoute::_('index.php?option=com_users&view=login') );
+        }
         return true;
     }
 
